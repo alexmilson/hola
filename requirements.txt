@@ -1,0 +1,7 @@
+streamlit
+langchain
+llama-index
+huggingface-hub
+accelerate
+langchain_community
+duckduckgo-search
