@@ -88,4 +88,3 @@ if st.button("Generate") and company:
             st.error(f"An error occurred: {e}") 
 
 
-remove the dataset n links sections without changing the format dont disturb the other sections
