@@ -7,7 +7,7 @@ search = DuckDuckGoSearchRun()
 client = InferenceClient(api_key="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")
 
 # Streamlit App
-st.title("AI Use Case Generator")
+st.title("AI Use Case Generator ")
 
 # Input field for company name
 company = st.text_input("Enter the Company Name:")
@@ -41,6 +41,8 @@ def generate_use_cases_with_hf(industry):
 
     return response.strip()  # Clean up any leading/trailing whitespace
 
+
+
 # Streamlit Workflow
 if st.button("Generate") and company:
     with st.spinner("Processing..."):
@@ -55,6 +57,11 @@ if st.button("Generate") and company:
             use_cases = generate_use_cases_with_hf(industry_info)
             st.write(use_cases)
             
+           
+            
             st.success("Data Generated Successfully!")
         except Exception as e:
-            st.error(f"An error occurred: {e}")
+            st.error(f"An error occurred: {e}") 
+
+
+remove the dataset n links sections without changing the format dont disturb the other sections
