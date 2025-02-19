@@ -1,5 +1,5 @@
 {
-  "homepage": "https://your-github-username.github.io/healthcare-chatbot",
+  "homepage": "https://github.com/alexmilson/hola",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
