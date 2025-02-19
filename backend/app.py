@@ -1,21 +1,41 @@
-from fastapi import FastAPI
-from model import get_answer
-from symptom_checker import check_symptoms
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
-app = FastAPI()
+app = Flask(__name__)
+CORS(app)  # Enable CORS
 
-@app.get("/")
-def home():
-    return {"message": "Healthcare Chatbot API is running"}
+# Load the DialoGPT-medium-med model
+tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium-med")
+model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium-med")
 
-@app.get("/ask")
-def ask_question(question: str):
-    answer = get_answer(question)
-    return {"answer": answer}
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.get_json()
+        user_input = data.get('message', '')
 
-@app.get("/symptom_checker")
-def symptom_checker(symptoms: str):
-    symptoms_list = symptoms.split(", ")
-    diseases = check_symptoms(symptoms_list)
-    return {"possible_diseases": diseases}
+        # Generate response
+        input_ids = tokenizer.encode(
+            user_input + tokenizer.eos_token, 
+            return_tensors='pt'
+        )
+        output = model.generate(
+            input_ids,
+            max_length=200,
+            pad_token_id=tokenizer.eos_token_id,
+            temperature=0.7,
+            top_k=50
+        )
+        response = tokenizer.decode(
+            output[:, input_ids.shape[-1]:][0], 
+            skip_special_tokens=True
+        )
 
+        return jsonify({'response': response})
+    
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+if __name__ == '__main__':
+    app.run(debug=True)
