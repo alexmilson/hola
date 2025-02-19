@@ -1,6 +1,4 @@
-fastapi
-uvicorn
-transformers
-torch
-scikit-learn
-
+flask==2.0.3
+flask-cors==3.0.10
+transformers==4.30.0
+torch==2.0.1
